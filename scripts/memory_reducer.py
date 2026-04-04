@@ -1,9 +1,6 @@
 import pandas as pd
 import numpy as np
 
-import pandas as pd
-import numpy as np
-
 def memory_reducer(csv_file: str) -> pd.DataFrame:
     df = pd.read_csv(csv_file, parse_dates=["Date"])
     
@@ -38,10 +35,10 @@ def memory_reducer(csv_file: str) -> pd.DataFrame:
     return df
 
 
-df_sp500 = memory_reducer("data/sp500.csv")
-mb = df_sp500.memory_usage(deep=True).sum() / 1024 ** 2
-print(f"SP500: {mb:.4f} MB")
+# df_sp500 = memory_reducer("data/sp500.csv")
+# mb = df_sp500.memory_usage(deep=True).sum() / 1024 ** 2
+# print(f"SP500: {mb:.4f} MB")
 
-df_prices = memory_reducer("data/stock_prices.csv")
-mb = df_prices.memory_usage(deep=True).sum() / 1024 ** 2
-print(f"Prices: {mb:.4f} MB")
+# df_prices = memory_reducer("data/stock_prices.csv")
+# mb = df_prices.memory_usage(deep=True).sum() / 1024 ** 2
+# print(f"Prices: {mb:.4f} MB")
