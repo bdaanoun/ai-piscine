@@ -5,7 +5,10 @@ import os
 def preprocessing(prices, sp500):
     # Passage au format Long (Date & Ticker en index)
    
-    prices = prices.set_index("Date").stack(future_stack=True).to_frame('Price')    
+    prices = prices.set_index("Date")
+    # print(prices.index.dtype)
+    prices = prices.resample("ME").last()
+    prices = prices.stack(future_stack=True).to_frame('Price')
     prices.index.names = ['Date', 'Ticker']
     prices = prices.sort_index(level=['Ticker', 'Date'])
 
@@ -33,6 +36,7 @@ def preprocessing(prices, sp500):
     # Remplissage des vides (Forward Fill)
     ## On complete les trous avec la derniere valeur connue de l'entreprise
     prices['Price'] = prices.groupby('Ticker')['Price'].ffill()
+    
     prices['monthly_past_return'] = prices.groupby('Ticker')['monthly_past_return'].ffill()
     prices['monthly_future_return'] = prices.groupby('Ticker')['monthly_future_return'].ffill()
 
