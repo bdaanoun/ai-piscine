@@ -24,7 +24,8 @@ def backtest(prices, sp500):
     total_return_strat = (cum_strategy.iloc[-1] - 1) * 100
     total_return_sp500 = (cum_sp500.iloc[-1] - 1) * 100
 
-    with open("results/plots/results.txt", "w") as f:
+    with open("results/results.txt", "w") as f:
+        f.write(f"Strategy Total PnL : {total_return_sp500:.2f}%\n")
         f.write(f"Total Return Strategy: {total_return_strat:.2f}%\n")
         f.write(f"Total Return S&P 500: {total_return_sp500:.2f}%\n")
 

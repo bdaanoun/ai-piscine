@@ -10,7 +10,7 @@ def preprocessing(prices, sp500):
     prices = prices.resample("ME").last()
     prices = prices.stack(future_stack=True).to_frame('Price')
     prices.index.names = ['Date', 'Ticker']
-    prices = prices.sort_index(level=['Ticker', 'Date'])
+    prices = prices.sort_index(level=[ 'Date' , 'Ticker'])
 
     # Nettoyage des prix (Filtre $0.1 - $10,000)
     prices.loc[(prices['Price'] < 0.1) | (prices['Price'] > 10000), 'Price'] = np.nan

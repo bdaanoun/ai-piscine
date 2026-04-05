@@ -1,0 +1,33 @@
+Identified Price Outliers
+==================================================
+
+1. Ticker    : SPLS
+   Date      : 2012-02-29
+   Price     : $43527700.00
+   Note      : Abnormal price detected
+--------------------------------------------------
+
+2. Ticker    : SPLS
+   Date      : 2014-07-31
+   Price     : $24987806.00
+   Note      : Abnormal price detected
+--------------------------------------------------
+
+3. Ticker    : SPLS
+   Date      : 2011-05-31
+   Price     : $20210300.00
+   Note      : Abnormal price detected
+--------------------------------------------------
+
+4. Ticker    : EMC
+   Date      : 2014-10-31
+   Price     : $0.00
+   Note      : Abnormal price detected
+--------------------------------------------------
+
+5. Ticker    : KIM
+   Date      : 2014-10-31
+   Price     : $0.00
+   Note      : Abnormal price detected
+--------------------------------------------------
+
