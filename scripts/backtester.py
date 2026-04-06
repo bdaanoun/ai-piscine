@@ -9,7 +9,6 @@ def backtest(prices, sp500):
     # Strategy return: sum of PnL / sum of signals (as per instructions)
     strategy_pnl  = prices.groupby('Date')['pnl'].sum()
     strategy_return = strategy_pnl / prices.groupby('Date')['signal'].sum()
-    print(prices.groupby('Date')['signal'].sum())
 
     # SP500 benchmark: $20 invested each month
     sp500_pnl = 20 * sp500['sp500_return']
