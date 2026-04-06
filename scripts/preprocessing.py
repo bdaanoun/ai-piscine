@@ -39,7 +39,7 @@ def preprocessing(prices, sp500):
     prices['Price'] = prices.groupby('Ticker')['Price'].ffill()
     
     prices['monthly_past_return'] = prices.groupby('Ticker')['monthly_past_return'].ffill()
-    prices['monthly_future_return'] = prices.groupby('Ticker')['monthly_future_return'].ffill()
+    # prices['monthly_future_return'] = prices.groupby('Ticker')['monthly_future_return'].ffill()
 
     prices = prices.dropna()
     

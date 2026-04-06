@@ -1,48 +1,54 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import os
 
 def backtest(prices, sp500):
-    # Calcul du PnL par action
-    ## relation => Signal (True/False) * Rendement Futur
+    # PnL per stock: Signal (True/False) * Future Return
     prices['pnl'] = prices['signal'] * prices['monthly_future_return']
 
-    # Rendement mensuel : Moyenne des 20 actions
-    ### On divise par 20 car on a investi 1/20eme de notre capital dans chaque action
-    strategy_perf = prices.groupby('Date')['pnl'].sum() / 20
+    # Strategy return: sum of PnL / sum of signals (as per instructions)
+    strategy_pnl  = prices.groupby('Date')['pnl'].sum()
+    strategy_return = strategy_pnl / prices.groupby('Date')['signal'].sum()
+    print(prices.groupby('Date')['signal'].sum())
 
-    # C'est la somme de tous les gains/pertes mensuels
-    total_pnl_value = strategy_perf.sum()
-    print(total_pnl_value)
+    # SP500 benchmark: $20 invested each month
+    sp500_pnl = 20 * sp500['sp500_return']
 
-    # Calcul des rendements cumulés (Compound Returns)
-    ## (1 + r).cumprod() => simuler la croissance de 1$
-    cum_strategy = (1 + strategy_perf).cumprod()
-    cum_sp500 = (1 + sp500['sp500_return']).cumprod()
+    # Cumulative PnL using cumsum (as per instructions)
+    cum_strategy = strategy_pnl.cumsum()
+    cum_sp500 = sp500_pnl.cumsum()
 
-    # pour la comparaison
+    # Align on common dates
     common_dates = cum_strategy.index.intersection(cum_sp500.index)
     cum_strategy = cum_strategy.loc[common_dates]
     cum_sp500 = cum_sp500.loc[common_dates]
 
+    # Total returns
+    total_return_strat  = strategy_return.sum()
+    total_return_sp500  = (sp500_pnl.sum()) / (20 * len(sp500_pnl))
 
-    total_return_strat = (cum_strategy.iloc[-1] - 1) * 100
-    total_return_sp500 = (cum_sp500.iloc[-1] - 1) * 100
-
+    # Save results
+    os.makedirs("results", exist_ok=True)
     with open("results/results.txt", "w") as f:
-        f.write(f"Strategy Total PnL (Sum): {total_pnl_value:.2f}%\n")
-        f.write(f"Total Return Strategy: {total_return_strat:.2f}%\n")
-        f.write(f"Total Return S&P 500: {total_return_sp500:.2f}%\n")
+        f.write("Backtesting Performance Report\n")
+        f.write("==============================\n")
+        f.write(f"Strategy Total PnL:        ${cum_strategy.iloc[-1]:.2f}\n")
+        f.write(f"S&P 500 Total PnL:         ${cum_sp500.iloc[-1]:.2f}\n")
+        f.write(f"Strategy Total Return:     {total_return_strat*100:.2f}%\n")
+        f.write(f"S&P 500 Total Return:      {total_return_sp500*100:.2f}%\n")
 
-    # Graph
+    # Plot
+    os.makedirs("results/plots", exist_ok=True)
     plt.figure(figsize=(12, 6))
     plt.plot(cum_strategy, label='Stock Picking 20 Strategy', color='blue')
-    plt.plot(cum_sp500, label='S&P 500 Benchmark', color='red', linestyle='--')
+    plt.plot(cum_sp500,    label='S&P 500 Benchmark',         color='red', linestyle='--')
     plt.title("Cumulative Performance: Strategy vs S&P 500")
     plt.xlabel("Date")
-    plt.ylabel("Cumulative Return (Base 1.0)")
+    plt.ylabel("Cumulative PnL ($)")
     plt.legend()
     plt.grid(True)
     plt.savefig("results/plots/performance_comparison.png")
     plt.close()
 
-    print("image saved in /results 😁")
+    print("Results saved in results/results.txt")
+    print("Plot saved in results/plots/performance_comparison.png")

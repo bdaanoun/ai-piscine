@@ -1,3 +1,6 @@
-Strategy Total PnL (Sum): 2.88%
-Total Return Strategy: 1122.95%
-Total Return S&P 500: 49.79%
+Backtesting Performance Report
+==============================
+Strategy Total PnL:        $56.46
+S&P 500 Total PnL:         $11.38
+Strategy Total Return:     282.30%
+S&P 500 Total Return:      0.32%
