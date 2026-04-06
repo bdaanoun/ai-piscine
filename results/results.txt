@@ -1,2 +1,3 @@
-Total Return Strategy: 14321.72%
-Total Return S&P 500: 44.72%
+Strategy Total PnL (Sum): 2.88%
+Total Return Strategy: 1122.95%
+Total Return S&P 500: 49.79%
