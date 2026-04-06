@@ -27,8 +27,8 @@ def preprocessing(prices, sp500):
     is_crisis = years.isin([2008, 2009])
     
     # Condition: rendement > 100% ou < -50%
-    bad_return = (prices['monthly_past_return'] > 0.5) | (prices['monthly_past_return'] < -0.5)
-    bad_future = (prices['monthly_future_return'] > 0.5) | (prices['monthly_future_return'] < -0.5)
+    bad_return = (prices['monthly_past_return'] > 1) | (prices['monthly_past_return'] < -0.5)
+    bad_future = (prices['monthly_future_return'] > 1) | (prices['monthly_future_return'] < -0.5)
    
     # On met en NaN si c'est un mauvais rendement ET que ce n'est pas la crise
     prices.loc[bad_return & ~is_crisis, 'monthly_past_return'] = np.nan
@@ -39,7 +39,7 @@ def preprocessing(prices, sp500):
     prices['Price'] = prices.groupby('Ticker')['Price'].ffill()
     
     prices['monthly_past_return'] = prices.groupby('Ticker')['monthly_past_return'].ffill()
-    # prices['monthly_future_return'] = prices.groupby('Ticker')['monthly_future_return'].ffill()
+    prices['monthly_future_return'] = prices.groupby('Ticker')['monthly_future_return'].ffill()
 
     prices = prices.dropna()
     

@@ -28,7 +28,7 @@ def backtest(prices, sp500):
 
     # Save results
     os.makedirs("results", exist_ok=True)
-    with open("results/results.txt", "w") as f:
+    with open("../results/results.txt", "w") as f:
         f.write("Backtesting Performance Report\n")
         f.write("==============================\n")
         f.write(f"Strategy Total PnL:        ${cum_strategy.iloc[-1]:.2f}\n")
@@ -37,7 +37,7 @@ def backtest(prices, sp500):
         f.write(f"S&P 500 Total Return:      {total_return_sp500*100:.2f}%\n")
 
     # Plot
-    os.makedirs("results/plots", exist_ok=True)
+    os.makedirs("../results/plots", exist_ok=True)
     plt.figure(figsize=(12, 6))
     plt.plot(cum_strategy, label='Stock Picking 20 Strategy', color='blue')
     plt.plot(cum_sp500,    label='S&P 500 Benchmark',         color='red', linestyle='--')
@@ -46,7 +46,7 @@ def backtest(prices, sp500):
     plt.ylabel("Cumulative PnL ($)")
     plt.legend()
     plt.grid(True)
-    plt.savefig("results/plots/performance_comparison.png")
+    plt.savefig("../results/plots/performance_comparison.png")
     plt.close()
 
     print("Results saved in results/results.txt")
