@@ -10,7 +10,7 @@ def create_signal(prices):
     # Creation du signal (Top 20 par mois)
     prices['signal'] = (
         prices.groupby('Date')['average_return_1y']
-        .rank(ascending=False, method='first') <= 20
+        .rank(ascending=False) <= 20
     )
 
     # Nettoyage

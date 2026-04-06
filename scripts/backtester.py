@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import os
 
 def backtest(prices, sp500):
+
     # PnL per stock: Signal (True/False) * Future Return
     prices['pnl'] = prices['signal'] * prices['monthly_future_return']
 
@@ -11,7 +12,8 @@ def backtest(prices, sp500):
     strategy_return = strategy_pnl / prices.groupby('Date')['signal'].sum()
 
     # SP500 benchmark: $20 invested each month
-    sp500_pnl = 20 * sp500['sp500_return']
+    sp500_signal=  pd.Series([20] * len(sp500), index=sp500.index)
+    sp500_pnl = sp500_signal * sp500['sp500_return']
 
     # Cumulative PnL using cumsum (as per instructions)
     cum_strategy = strategy_pnl.cumsum()
@@ -22,6 +24,7 @@ def backtest(prices, sp500):
     cum_strategy = cum_strategy.loc[common_dates]
     cum_sp500 = cum_sp500.loc[common_dates]
 
+    total_pnl_value = strategy_pnl.sum()
     # Total returns
     total_return_strat  = strategy_return.sum()
     total_return_sp500  = (sp500_pnl.sum()) / (20 * len(sp500_pnl))
@@ -31,7 +34,7 @@ def backtest(prices, sp500):
     with open("../results/results.txt", "w") as f:
         f.write("Backtesting Performance Report\n")
         f.write("==============================\n")
-        f.write(f"Strategy Total PnL:        ${cum_strategy.iloc[-1]:.2f}\n")
+        f.write(f"Strategy Total PnL:        ${total_pnl_value:.2f}\n")
         f.write(f"S&P 500 Total PnL:         ${cum_sp500.iloc[-1]:.2f}\n")
         f.write(f"Strategy Total Return:     {total_return_strat*100:.2f}%\n")
         f.write(f"S&P 500 Total Return:      {total_return_sp500*100:.2f}%\n")
