@@ -1,0 +1,15 @@
+# Created by venv; see https://docs.python.org/3/library/venv.html
+# Ignore venv internals
+bin/
+include/
+lib/
+lib64
+lib64/
+share/
+pyvenv.cfg
+.ipynb_checkpoints/
+etc/
+
+# Don't ignore these
+!requirements.txt
+!.gitignore
